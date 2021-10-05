@@ -3,6 +3,7 @@
     categoryId:number;
     name:string;
     createdAt:string;
+    imagePath:string;
 
 }
 

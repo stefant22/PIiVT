@@ -1,6 +1,7 @@
 import CategoryModel from "./model";
 import * as mysql2 from "mysql2/promise";
 import IErrorResponse from "../../common/IErrorResponse.interface";
+import { IAddCategory } from "./dto/AddCategory";
 
 export default class CategoryService {
     private db: mysql2.Connection
@@ -16,6 +17,7 @@ export default class CategoryService {
         item.categoryId = Number(row?.category_id);
         item.name = row?.name;
         item.createdAt = row?.created_at;
+        item.imagePath = row?.image_path;
         return item;
     }
 
@@ -65,6 +67,26 @@ export default class CategoryService {
         }
 
 
+    }
+
+
+    public async add(data: IAddCategory): Promise<CategoryModel | IErrorResponse> {
+        try {
+            const sql = "INSERT category SET name=?, image_path=?";
+            const insertData = await this.db.execute(sql, [data.name, data.imagePath]);
+            const insertInfo:any=insertData[0];
+            const newCategoryId: number = +(insertInfo?.insertId);
+            
+
+            return await this.getByID(newCategoryId);
+
+        } catch (error) {
+            return {
+                errorCode: error?.errno,
+                errorMessage: error?.sqlMessage
+            }
+
+        }
     }
 
 

@@ -10,6 +10,15 @@ export default interface Iconfig{
             maxAge:number,
             index:boolean,
         }
+    },
+    database:{
+        host:string,
+        port:number,
+        user:string,
+        password:string,
+        databse:string,
+        charset:string,
+        timezone:string
     }
 }
 

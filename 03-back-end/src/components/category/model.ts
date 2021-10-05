@@ -2,6 +2,7 @@
 
     categoryId:number;
     name:string;
+    createdAt:string;
 
 }
 

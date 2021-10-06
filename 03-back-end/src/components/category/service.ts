@@ -2,16 +2,13 @@ import CategoryModel from "./model";
 import * as mysql2 from "mysql2/promise";
 import IErrorResponse from "../../common/IErrorResponse.interface";
 import { IAddCategory } from "./dto/AddCategory";
+import BaseService from "../../../services/BaseService";
+import { IEditCategory } from "./dto/EditCategory";
 
-export default class CategoryService {
-    private db: mysql2.Connection
+export default class CategoryService extends BaseService<CategoryModel> {
+ 
 
-    constructor(db: mysql2.Connection) {
-        this.db = db;
-    }
-
-
-    protected async adaptdModel(row: any): Promise<CategoryModel> {
+    protected async adaptModel(row: any): Promise<CategoryModel> {
         const item: CategoryModel = new CategoryModel();
 
         item.categoryId = Number(row?.category_id);
@@ -24,47 +21,11 @@ export default class CategoryService {
 
     public async getAll(): Promise<CategoryModel[] | IErrorResponse> {
 
-        try {
-            const lista: CategoryModel[] = [];
-
-            const sql = "SELECT * FROM category";
-            const [rows, columns] = await this.db.execute(sql);
-
-            if (Array.isArray(rows)) {
-                for (const row of rows) {
-
-                    lista.push(await this.adaptdModel(row))
-                }
-            }
-
-            return lista;
-        } catch (error) {
-            return {
-                errorCode: error?.errno,
-                errorMessage: error?.sqlMessage
-            }
-        }
+        return await this.getAllfromTable("category");
     }
 
     public async getByID(categoryId: number): Promise<CategoryModel | IErrorResponse | null> {
-        try {
-
-            const sql = "SELECT * FROM category where category_id=?;";
-            const [rows, columns] = await this.db.execute(sql, [categoryId]);
-
-            if (!Array.isArray(rows)) {
-                return null;
-            }
-            if (rows.length === 0) {
-                return null;
-            }
-            return await this.adaptdModel(rows[0])
-        } catch (error) {
-            return {
-                errorCode: error?.errno,
-                errorMessage: error?.sqlMessage
-            }
-        }
+        return await this.getAllByIdFromTable("category",categoryId);
 
 
     }
@@ -74,9 +35,9 @@ export default class CategoryService {
         try {
             const sql = "INSERT category SET name=?, image_path=?";
             const insertData = await this.db.execute(sql, [data.name, data.imagePath]);
-            const insertInfo:any=insertData[0];
+            const insertInfo: any = insertData[0];
             const newCategoryId: number = +(insertInfo?.insertId);
-            
+
 
             return await this.getByID(newCategoryId);
 
@@ -89,7 +50,36 @@ export default class CategoryService {
         }
     }
 
+    public async edit(categoryId,data:IEditCategory):Promise<CategoryModel|IErrorResponse|null>{
+        const result = await this.getByID(categoryId);
+
+        if (result===null){
+            return null;
+        }
+
+        if (result instanceof CategoryModel){
+
+            try {
+                const sql = `UPDATE category SET name=?, image_path=? WHERE category_id=?;`;
+                const insertData = await this.db.execute(sql, [data.name, data.imagePath,categoryId]);
+                
+    
+                return await this.getByID(categoryId);
+    
+            } catch (error) {
+                console.log("error: ",error);
+                return {
+                    errorCode: error?.errno,
+                    errorMessage: error?.sqlMessage
+                }
+    
+            }
+        }
+          
+        }
+
+    }
 
 
 
-}
+

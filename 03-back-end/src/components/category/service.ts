@@ -4,6 +4,11 @@ import IErrorResponse from "../../common/IErrorResponse.interface";
 import { IAddCategory } from "./dto/AddCategory";
 import BaseService from "../../../services/BaseService";
 import { IEditCategory } from "./dto/EditCategory";
+import IModelAdapterOptions from "../../common/IModelAdapterOptions.interface";
+
+class CategoryModelAdapterOptions implements IModelAdapterOptions{
+
+}
 
 export default class CategoryService extends BaseService<CategoryModel> {
  
@@ -21,11 +26,11 @@ export default class CategoryService extends BaseService<CategoryModel> {
 
     public async getAll(): Promise<CategoryModel[] | IErrorResponse> {
 
-        return await this.getAllfromTable("category");
+        return await this.getAllfromTable<CategoryModelAdapterOptions>("category");
     }
 
     public async getByID(categoryId: number): Promise<CategoryModel | IErrorResponse | null> {
-        return await this.getAllByIdFromTable("category",categoryId);
+        return await this.getAllByIdFromTable<CategoryModelAdapterOptions>("category",categoryId);
 
 
     }

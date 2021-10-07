@@ -15,7 +15,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
 
     protected abstract adaptModel(data: any): Promise<ReturnModel>;
 
-    protected async getAllfromTable(tableName: string): Promise<ReturnModel[] | IErrorResponse> {
+    protected async getAllfromTable<AdapterOptions extends ImageBitmapOptions>(tableName: string): Promise<ReturnModel[] | IErrorResponse> {
         try {
             const lista: ReturnModel[] = [];
 
@@ -40,7 +40,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
 
 
 
-    protected async getAllByIdFromTable(tableName:string,id:number):Promise <ReturnModel|null|IErrorResponse>{
+    protected async getAllByIdFromTable<AdapterOptions extends ImageBitmapOptions>(tableName:string,id:number):Promise <ReturnModel|null|IErrorResponse>{
         try {
 
            const sql:string = `SELECT * FROM ${tableName} where ${tableName}_id=?;`;
@@ -64,7 +64,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
 
     }
 
-    protected async getAllByFieldNameFromTable(tableName:string,fieldName:string,fieldValue:any): Promise<ReturnModel[] | IErrorResponse>{
+    protected async getAllByFieldNameFromTable<AdapterOptions extends ImageBitmapOptions>(tableName:string,fieldName:string,fieldValue:any): Promise<ReturnModel[] | IErrorResponse>{
         try {
             const lista: ReturnModel[] = [];
 

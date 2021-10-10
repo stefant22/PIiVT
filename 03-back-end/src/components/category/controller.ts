@@ -75,5 +75,19 @@ class CategoryController {
     }
 
 
+    async deleteByID(req: Request, res: Response, next: NextFunction){
+        const id: string = req.params.id;
+        const categoryId: number = +id;
+
+        if (categoryId <= 0) {
+            res.sendStatus(400);
+            return;
+        }
+
+        res.send(await this.categoryService.delete(categoryId));
+
+    }
+
+
 }
 export default CategoryController;

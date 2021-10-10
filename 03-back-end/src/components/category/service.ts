@@ -5,6 +5,7 @@ import { IAddCategory } from "./dto/AddCategory";
 import BaseService from "../../../services/BaseService";
 import { IEditCategory } from "./dto/EditCategory";
 import IModelAdapterOptions from "../../common/IModelAdapterOptions.interface";
+import e = require("express");
 
 class CategoryModelAdapterOptions implements IModelAdapterOptions{
 
@@ -81,6 +82,41 @@ export default class CategoryService extends BaseService<CategoryModel> {
             }
         }
           
+        }
+
+
+
+        public async delete(categoryId:number):Promise<IErrorResponse>{
+
+            try {
+                const sql = `DELETE FROM category WHERE category_id=?;`;
+                const deletedData:any = await this.db.execute(sql, [categoryId]);
+                const deletedinfo:any= deletedData[0]
+                const deletedRowCount:number=+(deletedinfo.affectedRows);
+                if(deletedRowCount===1){
+                    return({
+                        errorCode: 0,
+                        errorMessage :"record deleted"
+                    })
+                }else{
+                    return({
+                        errorCode: -1,
+                        errorMessage :"This record could not be deleted"
+                    
+                })
+
+            }
+                
+    
+            } catch (error) {
+                console.log("error: ",error);
+                return {
+                    errorCode: error?.errno,
+                    errorMessage: error?.sqlMessage
+                }
+    
+            }
+
         }
 
     }

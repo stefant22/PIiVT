@@ -5,20 +5,19 @@ import IApplicationResources from "../src/common/IApplicationResources.interface
 import IServices from "../src/common/IServices.interface";
 
 export default abstract class BaseService<ReturnModel extends IModel>{
-    private dbConnection: mysql2.Connection;
-    private allservices : IServices;
+    private resources :  IApplicationResources;
+
 
     constructor(resources : IApplicationResources) {
-        this.dbConnection = resources.databaseConnection;
-        this.allservices = resources.services;
+        this.resources= resources;
     }
 
     protected get db(): mysql2.Connection {
-        return this.dbConnection;
+        return this.resources.databaseConnection;
     }
 
     protected get services():IServices{
-        return this.services;
+        return this.resources.services;
     }
 
     protected abstract adaptModel(data: any): Promise<ReturnModel>;

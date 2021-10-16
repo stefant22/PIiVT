@@ -2,7 +2,7 @@ import { IModel } from "../../common/IModel.interface";
 
  class ProgramTypeModel implements IModel{
 
-    programTypeId:number;
+    ProgramTypeId:number;
     name:string;
     createdAt:Date;
   

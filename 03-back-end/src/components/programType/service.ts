@@ -2,26 +2,26 @@ import BaseService from "../../../services/BaseService";
 import IErrorResponse from "../../common/IErrorResponse.interface";
 import IModelAdapterOptions from "../../common/IModelAdapterOptions.interface";
 import ProgramTypeModel from "./model";
+import DayModel from "./model";
 
 
-
-class ProgramTypeAdapterOptions implements IModelAdapterOptions{
+class ProgramTypeModelAdapterOptions implements IModelAdapterOptions{
 
 }
 class ProgramTypeService extends BaseService<ProgramTypeModel>{
 
 
     protected async adaptModel(data: any): Promise<ProgramTypeModel> {
-        const item: ProgramTypeModel=new ProgramTypeModel();
-        item.programTypeId=+(data?.program_type_id);
+        const item: DayModel=new DayModel();
+        item.ProgramTypeId=+(data?.program_type_id);
         item.name= data.name;
         item.createdAt=data.created_at;
         return item;
     }
 
-    public async  getAll():Promise<ProgramTypeModel[]| IErrorResponse >{
+    public async  getAll():Promise<DayModel[]| IErrorResponse >{
 
-        return await this.getAllfromTable<ProgramTypeAdapterOptions>("program_type");
+        return await this.getAllfromTable<ProgramTypeModelAdapterOptions>("program_type");
 
     }
     

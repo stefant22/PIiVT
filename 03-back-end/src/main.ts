@@ -12,6 +12,7 @@ import ProgramTypeService from "./components/programType/service";
 import ProgramTypeRouter from "./components/programType/router";
 
 
+
 async function main() {
 
 
@@ -38,7 +39,8 @@ async function main() {
 
         categoryService: new CategoryService(resources),
         dayService: new DayService(resources),
-        programTypeService: new ProgramTypeService(resources),
+        programTypeService : new ProgramTypeService(resources),
+     
 
     }
 
@@ -58,7 +60,8 @@ async function main() {
     Router.setupRoutes(application, resources, [
         new CategoryRouter(),
         new DayRouter(),
-        new ProgramTypeRouter(),
+        new ProgramTypeRouter()
+     
     ]);
 
 

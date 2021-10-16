@@ -4,7 +4,7 @@ import { IModel } from "../../common/IModel.interface";
 
     categoryId:number;
     name:string;
-    createdAt:string;
+    createdAt:Date;
     imagePath:string;
 
 }

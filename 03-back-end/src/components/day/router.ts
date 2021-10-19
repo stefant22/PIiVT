@@ -16,6 +16,7 @@ export default class DayRouter implements IRouter {
     
 
     application.get("/days",dayController.getAll.bind(dayController));
+    application.get("/day/:id",dayController.getById.bind(dayController));
   
 
 }

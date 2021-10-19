@@ -1,13 +1,20 @@
 import { IModel } from "../../common/IModel.interface";
+import CategoryModel from "../category/model";
+import DayModel from "../day/model";
+import ProgramTypeModel from "../programType/model";
 declare class ProgramModel implements IModel {
     programId: number;
-    programTypeID: number;
-    dayId: number;
     description: string;
     createdAt: Date;
     title: string;
     time: string;
     descriptionShort: string;
-    categoryId: any;
+    imagePath: string;
+    categoryId: number;
+    category?: CategoryModel;
+    programTypeID: number;
+    programType?: ProgramTypeModel;
+    dayId: number;
+    day?: DayModel;
 }
 export default ProgramModel;

@@ -10,6 +10,8 @@ import CategoryService from "./components/category/service";
 import DayService from "./components/day/service";
 import ProgramTypeService from "./components/programType/service";
 import ProgramTypeRouter from "./components/programType/router";
+import ProgramRouter from "./components/program/router";
+import ProgramService from "./components/program/service";
 
 
 
@@ -40,6 +42,7 @@ async function main() {
         categoryService: new CategoryService(resources),
         dayService: new DayService(resources),
         programTypeService : new ProgramTypeService(resources),
+        programService: new ProgramService(resources),
      
 
     }
@@ -60,7 +63,8 @@ async function main() {
     Router.setupRoutes(application, resources, [
         new CategoryRouter(),
         new DayRouter(),
-        new ProgramTypeRouter()
+        new ProgramTypeRouter(),
+        new ProgramRouter(),
      
     ]);
 

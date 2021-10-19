@@ -3,6 +3,7 @@ import * as mysql2 from "mysql2/promise"
 import IErrorResponse from "../src/common/IErrorResponse.interface";
 import IApplicationResources from "../src/common/IApplicationResources.interface";
 import IServices from "../src/common/IServices.interface";
+import IModelAdapterOptions from "../src/common/IModelAdapterOptions.interface";
 
 export default abstract class BaseService<ReturnModel extends IModel>{
     private resources :  IApplicationResources;
@@ -20,11 +21,13 @@ export default abstract class BaseService<ReturnModel extends IModel>{
         return this.resources.services;
     }
 
-    protected abstract adaptModel(data: any): Promise<ReturnModel>;
+    protected abstract adaptModel(data: any, options: Partial<IModelAdapterOptions>,): Promise<ReturnModel>;
 
-    protected async getAllfromTable<AdapterOptions extends ImageBitmapOptions>(tableName: string): Promise<ReturnModel[] | IErrorResponse> {
+    protected async getAllfromTable<AdapterOptions extends IModelAdapterOptions>(tableName: string,options: Partial<AdapterOptions> = { },): Promise<ReturnModel[] | IErrorResponse> {
+        
         try {
             const lista: ReturnModel[] = [];
+            
 
             const sql = `SELECT * FROM ${tableName};`;
             const [rows, columns] = await this.db.execute(sql);
@@ -32,7 +35,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
             if (Array.isArray(rows)) {
                 for (const row of rows) {
 
-                    lista.push(await this.adaptModel(row))
+                    lista.push(await this.adaptModel(row,options))
                 }
             }
 
@@ -47,7 +50,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
 
 
 
-    protected async getAllByIdFromTable<AdapterOptions extends ImageBitmapOptions>(tableName:string,id:number):Promise <ReturnModel|null|IErrorResponse>{
+    protected async getAllByIdFromTable<AdapterOptions extends IModelAdapterOptions>(tableName:string,id:number,options: Partial<AdapterOptions> = { },):Promise <ReturnModel|null|IErrorResponse>{
         try {
 
            const sql:string = `SELECT * FROM ${tableName} where ${tableName}_id=?;`;
@@ -59,7 +62,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
             if (rows.length === 0) {
                 return null;
             }
-            return await this.adaptModel(rows[0])
+            return await this.adaptModel(rows[0],options)
         } catch (error) {
             return {
                 errorCode: error?.errno,
@@ -71,7 +74,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
 
     }
 
-    protected async getAllByFieldNameFromTable<AdapterOptions extends ImageBitmapOptions>(tableName:string,fieldName:string,fieldValue:any): Promise<ReturnModel[] | IErrorResponse>{
+    protected async getAllByFieldNameFromTable<AdapterOptions extends IModelAdapterOptions>(tableName:string,fieldName:string,fieldValue:any,options: Partial<AdapterOptions> = { },): Promise<ReturnModel[] | IErrorResponse>{
         try {
             const lista: ReturnModel[] = [];
 
@@ -81,7 +84,7 @@ export default abstract class BaseService<ReturnModel extends IModel>{
             if (Array.isArray(rows)) {
                 for (const row of rows) {
 
-                    lista.push(await this.adaptModel(row))
+                    lista.push(await this.adaptModel(row,options))
                 }
             }
 

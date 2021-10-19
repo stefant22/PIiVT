@@ -22,6 +22,11 @@ class DayService extends BaseService<DayModel>{
         return await this.getAllfromTable<DayModelAdapterOptions>("day");
 
     }
+
+
+    public async getById(dayId: number,options: Partial<DayModelAdapterOptions> = {},): Promise<DayModel|IErrorResponse|null> {
+        return this.getAllByIdFromTable("day",dayId,options,);
+    }
     
     
 

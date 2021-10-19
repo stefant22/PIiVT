@@ -25,6 +25,13 @@ class ProgramTypeService extends BaseService<ProgramTypeModel>{
 
     }
     
+    public async getById(programTypeId: number,options: Partial<ProgramTypeModelAdapterOptions> = {},): Promise<ProgramTypeModel|IErrorResponse|null> {
+        return this.getAllByIdFromTable(
+            "program_type",
+            programTypeId,
+          
+        );
+    }
     
 
 

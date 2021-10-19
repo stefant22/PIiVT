@@ -12,7 +12,13 @@ class ProgramTypeController extends BaseController{
         res.send(days);
         
     }
-
+    public async getById(req: Request, res: Response, next: NextFunction){
+        const id: string = req.params.id;
+        const programTypeId: number = +id;
+        const programType = await this.services.programTypeService.getById(programTypeId);
+        res.send(programType);
+        
+    }
 
 }
 export default ProgramTypeController;

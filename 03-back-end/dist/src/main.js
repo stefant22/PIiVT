@@ -18,6 +18,10 @@ const router_2 = require("./router");
 const router_3 = require("./components/day/router");
 const service_1 = require("./components/category/service");
 const service_2 = require("./components/day/service");
+const service_3 = require("./components/programType/service");
+const router_4 = require("./components/programType/router");
+const router_5 = require("./components/program/router");
+const service_4 = require("./components/program/service");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const application = express();
@@ -38,6 +42,8 @@ function main() {
         resources.services = {
             categoryService: new service_1.default(resources),
             dayService: new service_2.default(resources),
+            programTypeService: new service_3.default(resources),
+            programService: new service_4.default(resources),
         };
         resources.databaseConnection.connect();
         application.use(dev_1.default.server.static.route, express.static(dev_1.default.server.static.path, {
@@ -50,6 +56,8 @@ function main() {
         router_2.default.setupRoutes(application, resources, [
             new router_1.default(),
             new router_3.default(),
+            new router_4.default(),
+            new router_5.default(),
         ]);
         application.use((req, res) => {
             res.sendStatus(404);

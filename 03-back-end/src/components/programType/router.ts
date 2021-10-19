@@ -17,7 +17,7 @@ export default class  ProgramTypeRouter implements IRouter {
     
 
     application.get("/program_types",programTypeController.getAll.bind(programTypeController));
-  
+    application.get("/program_type/:id",programTypeController.getById.bind(programTypeController));
 
 }
 }

@@ -19,7 +19,7 @@ class BaseService {
     get services() {
         return this.resources.services;
     }
-    getAllfromTable(tableName) {
+    getAllfromTable(tableName, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const lista = [];
@@ -27,7 +27,7 @@ class BaseService {
                 const [rows, columns] = yield this.db.execute(sql);
                 if (Array.isArray(rows)) {
                     for (const row of rows) {
-                        lista.push(yield this.adaptModel(row));
+                        lista.push(yield this.adaptModel(row, options));
                     }
                 }
                 return lista;
@@ -40,7 +40,7 @@ class BaseService {
             }
         });
     }
-    getAllByIdFromTable(tableName, id) {
+    getAllByIdFromTable(tableName, id, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = `SELECT * FROM ${tableName} where ${tableName}_id=?;`;
@@ -51,7 +51,7 @@ class BaseService {
                 if (rows.length === 0) {
                     return null;
                 }
-                return yield this.adaptModel(rows[0]);
+                return yield this.adaptModel(rows[0], options);
             }
             catch (error) {
                 return {
@@ -61,7 +61,7 @@ class BaseService {
             }
         });
     }
-    getAllByFieldNameFromTable(tableName, fieldName, fieldValue) {
+    getAllByFieldNameFromTable(tableName, fieldName, fieldValue, options = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const lista = [];
@@ -69,7 +69,7 @@ class BaseService {
                 const [rows, columns] = yield this.db.execute(sql, [fieldValue]);
                 if (Array.isArray(rows)) {
                     for (const row of rows) {
-                        lista.push(yield this.adaptModel(row));
+                        lista.push(yield this.adaptModel(row, options));
                     }
                 }
                 return lista;
